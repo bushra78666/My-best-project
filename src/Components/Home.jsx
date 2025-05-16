@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ProductContext } from '../Utils/Context';
 import Loading from './Loading';
-import axios from '../utils/axios';
+import axios from '../Utils/axios.jsx';
 
 const Home = () => {
   const [products] = useContext(ProductContext);
@@ -32,25 +32,28 @@ const Home = () => {
   }, [category, products]);
 
   return products ? (
-    <>
-      <div className="h-auto  p-5 md:p-10 pt-5 flex flex-wrap overflow-x-hidden overflow-y-auto">
-        {filteredProducts && filteredProducts.map((p) => (
-          <Link
-            key={p.id}
-            to={`/details/${p.id}`}
-            className="mr-3 mb-3 card p-3 border shadow rounded h-[30vh] w-auto sm:h-auto flex justify-center items-center flex-col"
-          >
-            <div
-              className="hover:scale-110 mb-3 w-full h-full bg-contain bg-no-repeat bg-center"
-              style={{
-                backgroundImage: `url(${p.image})`,
-              }}
-            ></div>
-            <h1 className="hover:text-blue-300 text-[15px] sm:text-[25px]">{p.title}</h1>
-          </Link>
-        ))}
+    <div className="min-h-screen w-full px-4 py-6 sm:px-6 md:px-10 lg:px-16 bg-white">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+        {filteredProducts &&
+          filteredProducts.map((p) => (
+            <Link
+              key={p.id}
+              to={`/details/${p.id}`}
+              className="group border rounded-xl shadow hover:shadow-md transition duration-300 bg-white p-4 flex flex-col items-center justify-center"
+            >
+              <div
+                className="w-full h-40 sm:h-44 md:h-48 bg-contain bg-no-repeat bg-center mb-4 transform group-hover:scale-105 transition"
+                style={{
+                  backgroundImage: `url(${p.image})`,
+                }}
+              ></div>
+              <h1 className="text-sm sm:text-base md:text-lg text-center text-gray-800 group-hover:text-blue-500 transition">
+                {p.title}
+              </h1>
+            </Link>
+          ))}
       </div>
-    </>
+    </div>
   ) : (
     <Loading />
   );
